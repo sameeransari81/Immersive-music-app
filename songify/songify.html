@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/html" href="welcomescreen.html">	
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+    
+</head>
+<style>
+li , table td{
+			cursor: pointer;
+		}
+div{
+	text-align: right;
+}
+td{
+	border: 1px solid #e3e3e3;
+	padding: 4px 8px;
+}
+tr:nth-child(odd) td{
+	background-color:#e7edf0; 
+}
+table{
+	border-collapse: collapse;
+
+}
+table th{
+	text-align: left;
+	background-color: skyblue;
+	padding: 4px 30px 4px 8px;
+}
+
+</style>
+<body>
+
+<table id="songs">
+<thead class="list-headers">
+<tr>
+	<th>Song Name</th>
+	<th>Album Name</th>
+	<th>Duration</th>
+	<th>Artist Name</th>
+</tr>
+</thead>
+<tr>
+	<td><li id="song1">chumma-chumma</li></td>
+	<td>HUM (1991)</td>
+	<td>8:24</td>
+	<td> Sudesh Bhonsale, Kavita Krishnamurthy </td>
+</tr>
+<tr>
+	<td><li id="song2">Beech Beech Mein</li></td>
+	<td>Jab Harry Met Sejal</td>
+	<td>3:26</td>
+	<td>Arijit Singh, Shalmali Kholgade, Shefali Alvares.</td>
+</tr>
+<tr>
+	<td><li id="song3">Radha</li></td>
+	<td>Jab Harry Met Sejal</td>
+	<td>3:50</td>
+	<td>Shahid Mallya, Sunidhi Chauhan</td>
+</tr>
+<tr>
+	<td><li id="song4">despacito</li></td>
+	<td>Despacito</td>
+	<td>3:49</td>
+	<td> Luis Fonsi, Daddy Yankee</td>
+</tr>
+</table>
+<audio =""></audio>
+<script src="jquery.js"></script>
+<footer>
+<div class="controls">
+                    <div class="player-buttons">
+                        <i class="fa fa-play clickable play-icon" aria-hidden="true"></i>
+                    </div>
+</div>
+<p RegisterName>Hello</p>
+<div class="current-song-wrapper">
+        <img src="" class="current-song-image">
+        <div>
+        <p class="current-song-name"></p>
+        <p class="current-song-album"></p>
+       	</div>
+        </div>
+<div class="image-fadeIn-wrapper" id="cf" style="width:300px;height:300px; display:none;">
+	<img class="bottom" src="img/" style="width:300px;height:300px;">
+	<img class="top" src="img/" style="width:300px;height:300px;">
+</div>
+</footer>
+					<p class="duration" style="text-align: center;"></p>
+					<p class="current-time" style="text-align: center;"></p>
+	<script src="jquery.js">
+    </script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js">
+ </script>   
+<script>
+
+var songs=[{
+	'name':'chumma-chumma',
+	'album':'HUM (1991)',
+	'duration':'8:24',
+	'artist':'Sudesh Bhonsale, Kavita Krishnamurthy ',
+	'filename':'chumma-chumma.mp3',
+	'image':'hum.jpg',
+	'bottom':'hum1.jpg',
+	'top':'hum2.png'
+
+},
+{
+'name':'Beech Beech Mein',
+	'album':'Jab Harry Met Sejal',
+	'duration':'3:26',
+	'artist':'Shahid Mallya, Sunidhi Chauhan',
+	'filename':'Beech Beech Mein.mp3',
+	'image':'jab harry met sejal poster-1.jpg',
+	'bottom':'bbm1.jpg',
+	'top':'bbm2.jpg'
+},
+{
+	'name':'Radha',
+	'album':'Jab Harry Met Sejal',
+	'duration':'3:50',
+	'artist':'Shahid Mallya, Sunidhi Chauhan',
+	'filename':'Radha.mp3',
+	'image':'jab harry met sejal poster-2.jpg',
+	'bottom':'radha1.jpg',
+	'top':'radha2.jpg'
+},
+{
+	'name':'Despacito',
+	'album':'despacito',
+	'duration':'3:49',
+	'artist':'Luis Fonsi, Daddy Yankee',
+	'filename':'despacito.mp3',
+	'image':'Despacito.jpeg',
+	'bottom':'despacito1.jpg',
+	'top':'despacito2.jpg'
+}
+]
+   function changeCurrentSongDetails(songObj) { // it wil display all the details of the currently playing song
+    $('.current-song-image').attr('src','img/' + songObj.image);
+    $('.current-song-name').text(songObj.name);
+    $('.current-song-album').text(songObj.album);
+    $('.bottom').attr('src','shortfilm/' + songObj.bottom);
+    $('.top').attr('src','shortfilm/' + songObj.top);	
+}
+
+	function fancyTimeFormat(time) // changing the time format in secs, mins and hours
+{   
+    // Hours, minutes and seconds
+    var hrs = ~~(time / 3600);
+    var mins = ~~((time % 3600) / 60);
+    var secs = time % 60;
+
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    var ret = "";
+
+    if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+    return ret;
+}
+
+function togglesong() // to change the play/pause icon as the song played/paused
+	{
+	    var song = document.querySelector('audio');
+                    if (song.paused == true) {
+                        console.log('Playing');
+                        $('.play-icon').removeClass('fa-play').addClass('fa-pause');
+                        song.play();
+                        $("#cf").fadeIn(3000);
+                    } else {
+                        console.log('Paused');
+                        $('.play-icon').removeClass('fa-pause').addClass('fa-play');
+                        song.pause();
+                        $("#cf").fadeOut(1000);
+                    }
+}
+function addSongNameEventListener(songObj,position){
+	var songName = songObj.filename;
+var id="#song" + position;
+
+$(id).on('click', function(event){
+var song1=document.querySelector('audio');
+var currentSong= song1.src; // storing the source/path of song in a variable
+if(currentSong.search(songName) != -1){ // checking that the song path conatins song or not
+	togglesong();
+}
+else{
+song1.src=songName;
+	togglesong();
+changeCurrentSongDetails(songObj);
+
+}
+});
+};
+
+function updateCurrentTime() {
+var audio = document.querySelector('audio');
+
+}
+				
+
+window.onload = function() {
+
+    $('#songs').DataTable({
+    	paging : false
+    });
+
+	changeCurrentSongDetails(songs[0]);
+updateCurrentTime()
+
+for(var i =0; i<songs.length; i++){
+	var obj = songs[i];
+        var name = '#song' + (i+1);
+        var song = $(name);
+addSongNameEventListener(obj,i + 1);
+ 
+}
+
+var SongDuration = document.querySelector('audio');
+  setInterval(function(){
+	$('.duration').text(SongDuration.duration + "  duration"); 
+	},1000);
+
+var CurrentSongTime = document.querySelector('audio');
+setInterval(function(){ // a pre-defined function to display time elapsed of any song/video
+$('.current-time').text(fancyTimeFormat(CurrentSongTime.currentTime)+" Time elapsed");
+},1000);
+					
+}	
+$('.play-icon').on('click', function(){
+        togglesong();
+    });
+ $('body').on('keypress', function(event) { // it will pause/play the song as we hit the SPACEBAR 
+ 				var target = event.target;
+                if (event.keyCode == 32 && target.tagName != 'INPUT') {
+                togglesong();
+                }
+            });
+
+</script>
+</body>
+</html>

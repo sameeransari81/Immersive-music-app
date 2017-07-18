@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Immersive Music</title>
+ <link rel="stylesheet" type="text/css" href="font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/html" href="songify.html">
+</head>
+
+<style>
+h1 {
+	text-align: center;
+	margin-top: 100px;
+	color: white;
+
+}
+p{
+	text-align: center;
+	margin-top: 20px;
+	color: white;
+
+}
+body{
+	background-color: black;
+}
+
+</style>
+<body>
+<h1>Welcome to Immersive Music Experience</h1>
+<p>Enter your name to Listen</p>
+<form action="songify.html"> 
+Name: <input type="text" placeholder="Name" id="name-input" style="margin-left: 40%; display: inline-block; margin-top: 5%;">
+<input type="hidden">
+<button type="submit" value="submit" id="button-input">Submit</button>
+</form>
+<script src="jquery.js"></script>
+<script>
+function UserName(){
+	var RegisterName=$('#name-input').val();
+var Login=$('#button-input').on('click',function(){
+
+console.log('RegisterName')
+if (RegisterName.length < 3){
+	alert('Name length is too small');
+
+}
+else
+   console.log(RegisterName);
+});
+}
+$('body').on('keypress', function(event) {
+                if (event.keyCode == 13) {
+                UserName();
+                }
+});
+</script>
+</body>
+</html>
